@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+	<!-- 请求参数的编码方式--> 
+    <constant name="struts.i18n.encoding" value="UTF-8"/> 
+    <!-- 指定被struts2处理的请求后缀类型。多个用逗号隔开--> 
+    <constant name="struts.action.extension" value="action,do,htm"/> 
+    <!-- 当struts.xml改动后，是否重新加载。默认值为false(生产环境下使用),开发阶段最好打开  --> 
+    <constant name="struts.configuration.xml.reload" value="true"/> 
+    <!-- 是否使用struts的开发模式。开发模式会有更多的调试信息。默认值为false(生产环境下使用),开发阶段最好打开  --> 
+    <constant name="struts.devMode" value="true"/>   
+    <!-- 设置浏览器是否缓存静态内容。默认值为true(生产环境下使用),开发阶段最好关闭  --> 
+    <constant name="struts.serve.static.browserCache" value="false" /> 
+   
+    <!-- 是否开启动态方法调用--> 
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    
+    <constant name="struts.ui.theme" value="simple"></constant> 
+	<package name="test" namespace="/" extends="struts-default">
+		<action name="test" class="tests" >
+			<result>/success.jsp</result>
+		</action>
+		<!-- 登录 -->
+		<action name="login" class="com.crw.action.LoginAction">
+			<result name="student" >/jsp/student/index.jsp</result>
+			<result name="fail" >/jsp/common/login.jsp</result>
+			<result name="teacher" >/jsp/teacher/index.jsp</result>
+			<result name="admin" >/jsp/admin/index.jsp</result>
+		</action>
+		<!-- 加载ztree -->
+		<action name="loadZTree" class="com.crw.action.LoadZTreeAction">
+		</action>
+		<action name="showDetail" class="com.crw.action.ShowClickedDetail">
+			<result>/jsp/common/detail.jsp</result>
+		</action>
+		<action name="FileDownload" class="com.crw.action.Download">  
+           <result name="success" type="stream"> 
+           	  <param name=""></param>
+               <param name="contentDisposition">attachment;fileName="${fileName}"</param> 
+               <!-- attachment; --> 
+               <param name="inputName">downloadFile</param>  
+               <param name="bufferSize">4096</param>  
+           </result>  
+       </action>
+       <action name="preview" class="com.crw.action.PreviewAction">  
+           <result name="success" type="stream"> 
+           	  <param name=""></param>
+               <param name="contentDisposition">inline;fileName="${fileName}"</param> 
+               <!-- attachment; --> 
+               <param name="inputName">previewFile</param>  
+               <param name="bufferSize">4096</param>  
+           </result>  
+       </action>  
+       <action name="uploadFile" class="com.crw.action.UploadAction">
+       			<result name="success">/jsp/common/detail.jsp</result>
+       			<result name="adminsuccess">/jsp/admin/source.jsp</result>
+       </action>
+        <action name="loadCourses" class="com.crw.action.LoadCoursesAction">
+       		
+       </action>
+       <action name="changePassword" class="com.crw.action.ChangePasswordAction"></action>
+       <action name="exit" class="com.crw.action.ExitAction">
+       	<result name="success">/jsp/common/login.jsp</result>
+       </action>
+       <action name="getMyResources" class="com.crw.action.GetMyResourcesAction">
+       		<result name="success">/jsp/common/usercenter.jsp</result>
+       </action>
+       <action name="deletRes" class="com.crw.action.DeleteResAction">
+       		<result name="success" type="redirectAction">
+       			<param name="actionName">getMyResources</param>
+       		</result>
+       		<result name="adminsuccess" type="redirectAction">
+       			<param name="actionName">resManage</param>
+       		</result>
+       </action>
+       <action name="resManage" class="com.crw.action.ResourcesManageAction">
+       	<result name="success">/jsp/admin/source.jsp</result>
+       </action>
+       <action name="userManage" class="com.crw.action.UserManageAction">
+       <result name="success">/jsp/admin/users.jsp</result>
+       	<result name="editsuccess" type="redirectAction">
+       			<param name="actionName">userManage</param>
+       		</result>
+       </action>
+       <action name="loadDepartment" class="com.crw.action.LoadDepartmentAction"></action>
+       
+       <action name="depart_cour" class="com.crw.action.DeparAndCourManageAction">
+       <result name="success">/jsp/admin/departAndCour.jsp</result>
+       	<result name="addsuccess" type="redirectAction">
+       			<param name="actionName">depart_cour</param>
+       		</result>
+       </action>
+       
+		<action name="getAllQuestion" class="com.crw.action.QustionAction" method="getAllQuestion">
+			<result name="teacher" >/jsp/teacher/question.jsp</result>
+			<result name="student" >/jsp/student/question.jsp</result>
+		</action>
+		<action name="getQuestionById" class="com.crw.action.QustionAction" method="getQuestionById">
+			<result name="teacher" >/jsp/teacher/reply.jsp</result>
+			<result name="student" >/jsp/student/updatequestion.jsp</result>
+		</action>
+	</package>
+
+</struts>
